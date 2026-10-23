@@ -13,7 +13,7 @@ sudo apt install -y \
     qtbase5-dev qtcreator \
     postgresql-client mysql-client sqlite3 \
     ripgrep fd-find bat fzf tmux htop \
-    jq yq restic broot mmv fpc lazarus \
+    jq restic mmv fpc lazarus \
     zsh
 
 # Симлинки (не трогаем системные утилиты)
@@ -26,6 +26,17 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 if ! command -v rustc &>/dev/null; then curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y; source "$HOME/.cargo/env"; fi
 if ! command -v node &>/dev/null; then curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -; sudo apt install -y nodejs; fi
 if command -v npm &>/dev/null; then npm install -g @angular/cli; fi
+
+echo "=== Установка yq (бинарник с GitHub) ==="
+# Скачиваем последнюю версию yq для Linux amd64 и устанавливаем в /usr/local/bin
+sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+sudo chmod +x /usr/local/bin/yq
+
+echo "=== Установка broot (бинарник с GitHub) ==="
+# Скачиваем broot для Linux и устанавливаем
+curl -o broot -L https://dystroy.org/broot/download/x86_64-linux/broot
+chmod +x broot
+sudo mv broot /usr/local/bin/broot
 
 echo "=== Starship, Zoxide, Atuin, Delta ==="
 curl -sS https://starship.rs/install.sh | sh -s -- -y
