@@ -1,0 +1,35 @@
+# wsl/zshrc
+# Конфигурация для Zsh (Oh My Zsh)
+
+export ZSH="$HOME/.oh-my-zsh"
+ZSH_THEME="" # Используем Starship
+
+plugins=(
+    git
+    zsh-autosuggestions
+    zsh-syntax-highlighting
+    zsh-completions
+)
+source $ZSH/oh-my-zsh.sh
+
+# Инициализация инструментов
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(atuin init zsh)"
+source <(fzf --zsh)
+command -v broot &>/dev/null && source "$(broot --print-shell-function zsh)"
+
+# Обертка для Yazi
+if command -v yazi &>/dev/null; then
+    function y() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+            builtin cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
+    }
+fi
+
+# Подключение общих переменных и алиасов
+[ -f "$HOME/.config/shell/exports.sh" ] && source "$HOME/.config/shell/exports.sh"

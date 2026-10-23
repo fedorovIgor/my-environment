@@ -1,0 +1,39 @@
+# windows/bashrc
+# Конфигурация для Git Bash на Windows
+
+# Защита от неинтерактивного выполнения
+[[ $- != *i* ]] && return
+
+# Добавление путей (идемпотентно)
+path_add() {
+    case ":$PATH:" in
+        *":$1:"*) ;;
+        *) export PATH="$1:$PATH" ;;
+    esac
+}
+path_add "$HOME/bin"
+path_add "$HOME/scoop/shims"
+# Фикс для Starship (кириллица в пути)
+path_add "/c/Users/Виктория/scoop/apps/starship/current"
+
+# Инициализация инструментов
+command -v zoxide   &>/dev/null && eval "$(zoxide init bash)"
+command -v atuin    &>/dev/null && eval "$(atuin init bash)"
+command -v fzf      &>/dev/null && eval "$(fzf --bash)"
+command -v starship &>/dev/null && eval "$(starship init bash)"
+command -v broot    &>/dev/null && source "$(broot --print-shell-function bash)"
+
+# Обертка для Yazi (чтобы менять директорию при выходе)
+if command -v yazi &>/dev/null; then
+    function y() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+            builtin cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
+    }
+fi
+
+# Подключение общих переменных и алиасов
+[ -f "$HOME/.config/shell/exports.sh" ] && source "$HOME/.config/shell/exports.sh"
