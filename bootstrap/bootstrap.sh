@@ -15,8 +15,10 @@ if [ ! -d "$HOME/.oh-my-zsh" ]; then
 fi
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}
+# Клонируем все три плагина, которые указаны в .zshrc
 git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions 2>/dev/null || true
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting 2>/dev/null || true
+git clone https://github.com/zsh-users/zsh-completions $ZSH_CUSTOM/plugins/zsh-completions 2>/dev/null || true
 
 echo -e "\n--- Шаг 3: Развертывание конфигураций ---"
 mkdir -p "$HOME/.config/shell" "$HOME/.config/nvim"
