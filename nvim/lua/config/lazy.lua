@@ -12,9 +12,10 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   spec = {
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
-    { import = "plugins" }, -- Импорт ваших кастомных плагинов
+    { import = "plugins" },
   },
   defaults = { lazy = false, version = false },
   install = { colorscheme = { "tokyonight", "habamax" } },
   checker = { enabled = true },
+  rocks = { enabled = false }, -- Отключаем luarocks
 })

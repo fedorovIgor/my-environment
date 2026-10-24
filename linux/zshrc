@@ -12,11 +12,11 @@ plugins=(
 )
 source $ZSH/oh-my-zsh.sh
 
-# Инициализация инструментов
+# Инициализация инструментов (сначала базовые)
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(atuin init zsh)"
 source <(fzf --zsh)
+
 command -v broot &>/dev/null && source "$(broot --print-shell-function zsh)"
 
 # Обертка для Yazi
@@ -29,6 +29,13 @@ if command -v yazi &>/dev/null; then
         fi
         rm -f -- "$tmp"
     }
+fi
+
+# ==========================================
+# Инициализация Atuin (всегда в самом низу)
+# ==========================================
+if command -v atuin &>/dev/null; then
+    eval "$(atuin init zsh)"
 fi
 
 # Подключение общих переменных и алиасов

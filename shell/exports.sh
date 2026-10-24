@@ -14,6 +14,9 @@ export MANROFFOPT="-c"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 
+# --- PATH ---
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$PATH"
+
 # --- Алиасы (без конфликта с функциями y() и br()) ---
 alias ls='eza --icons --group-directories-first'
 alias ll='eza -l --icons --group-directories-first'
